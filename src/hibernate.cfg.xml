@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-configuration SYSTEM 
+"http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
+
+<hibernate-configuration>
+	<session-factory>
+		<property name="hibernate.dialect">
+			org.hibernate.dialect.MySQLDialect
+		</property>
+		<property name="hibernate.connection.driver_class">
+			com.mysql.jdbc.Driver
+		</property>
+
+		<!-- Assume test is the database name -->
+		<property name="hibernate.connection.url">
+			jdbc:mysql://114.212.82.189/xianteng
+		</property>
+		<property name="hibernate.connection.username">
+			root
+		</property>
+		<property name="hibernate.connection.password">
+			root
+		</property>
+
+		<property name="c3p0.min_size">2</property> <!--在连接池中可用数据库连接的最小数目 -->
+		<property name="c3p0.max_size">5</property> <!--在连接池中所有数据库连接的最大数目 -->
+		<property name="c3p0.time_out">1800</property> <!--设定数据库连接的超时时间 -->
+		<property name="c3p0.max_statement">5</property> <!--可以被缓存的PreparedStatement的最大数目 -->
+
+		<!-- List of XML mapping files -->
+		<mapping resource="cn/edu/nju/iip/model/JWNews.hbm.xml" />
+
+	</session-factory>
+</hibernate-configuration>

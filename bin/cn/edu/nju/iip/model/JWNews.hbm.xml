@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+ "-//Hibernate/Hibernate Mapping DTD//EN"
+ "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+	<class name="cn.edu.nju.iip.model.JWNews" table="JWNEWS">
+		<meta attribute="class-description">
+			This class contains the nju.iip.model.JWNews detail.
+		</meta>
+		<id name="id" type="int" column="id">
+			<generator class="native" />
+		</id>
+		<property name="url" column="url" type="string" />
+		<property name="title" column="title" type="string" />
+		<property name="content" column="content" type="string" />
+		<property name="source" column="source" type="string" />
+		<property name="sentiment" column="sentiment" type="int" />
+		<property name="crawltime" column="crawltime" type="string" />
+	</class>
+</hibernate-mapping>

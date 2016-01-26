@@ -1,0 +1,14 @@
+#Fat Jar Configuration File
+#Sun Jan 24 11:48:59 CST 2016
+onejar.license.required=true
+manifest.classpath=
+manifest.removesigners=true
+onejar.checkbox=false
+jarname=WebCollector_fat.jar
+manifest.mergeall=true
+manifest.mainclass=nju.iip.spider.NewsCrawler
+manifest.file=<createnew>
+jarname.isextern=false
+onejar.expand=
+excludes=
+includes=
