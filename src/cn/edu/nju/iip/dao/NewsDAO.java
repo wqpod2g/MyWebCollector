@@ -23,12 +23,10 @@ public class NewsDAO extends DAO implements Runnable{
 		this.NewsQueue = NewsQueue;
 	}
 	
-	public void saveNews(List<JWNews> list) {
+	public void saveNews(JWNews news) {
 		try{
 			begin();
-			for(JWNews news:list) {
-				getSession().save(news);
-			}
+			getSession().save(news);
 			commit();
 		}catch(Exception e) {
 			rollback();
@@ -38,26 +36,14 @@ public class NewsDAO extends DAO implements Runnable{
 
 	public void run() {
 		logger.info("****************"+Thread.currentThread().getName()+" NewsDAO线程start！****************");
-		boolean flag = true;
-		while(flag) {
+		while(true) {
 			try{
-				JWNews news = NewsQueue.poll(120,TimeUnit.SECONDS);
-				if(news==null) {
-					flag = false;
-					saveNews(list);
-				}
-				else{
-					list.add(news);
-					if(list.size()>50) {
-						saveNews(list);
-						list.clear();
-					}
-				}
+				JWNews news = NewsQueue.take();
+				saveNews(news);
 			}catch (Exception e) {
 				logger.info("NewsDAO run() failed", e);
 			}
 		}
-		logger.info("****************"+Thread.currentThread().getName()+" NewsDAO线程finish！****************");
 	}
 	
 	public static void main(String[] args) {
