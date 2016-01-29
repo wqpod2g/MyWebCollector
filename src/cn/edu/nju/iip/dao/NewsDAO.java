@@ -1,14 +1,9 @@
 package cn.edu.nju.iip.dao;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
-import java.util.concurrent.TimeUnit;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import cn.edu.nju.iip.model.JWNews;
 
 public class NewsDAO extends DAO implements Runnable{
@@ -17,7 +12,6 @@ public class NewsDAO extends DAO implements Runnable{
 	
 	private BlockingQueue<JWNews> NewsQueue;
 	
-	private List<JWNews> list = new ArrayList<JWNews>();
 	
 	public NewsDAO(BlockingQueue<JWNews> NewsQueue) {
 		this.NewsQueue = NewsQueue;

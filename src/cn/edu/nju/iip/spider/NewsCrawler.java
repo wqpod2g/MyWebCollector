@@ -34,7 +34,7 @@ public class NewsCrawler extends BreadthCrawler{
 
 	private BlockingQueue<JWNews> NewsQueue;
 
-	private BloomFactory bf = BloomFactory.getInstance();
+	private static BloomFactory bf = BloomFactory.getInstance();
 
 	/**
 	 * @param crawlPath
@@ -53,15 +53,15 @@ public class NewsCrawler extends BreadthCrawler{
 		}
 		this.addRegex(".*");
 		this.addRegex("-.*\\.(jpg|png|gif).*");
-		this.addRegex("-.*\\.com/");
-		this.addRegex("-.*\\.cn/");
-		this.addRegex("-.*\\.net/");
+		this.addRegex("-.*\\.com/?");
+		this.addRegex("-.*\\.cn/?");
+		this.addRegex("-.*\\.net/?");
+		this.addRegex("-.*#.*");
 	}
 
 	public void visit(Page page, CrawlDatums next) {
 		String url = page.getUrl();
 		if (bf.contains(url)) {
-			logger.info(url+"已爬过！");
 			return;
 		} else {
 			bf.add(url);
@@ -110,11 +110,13 @@ public class NewsCrawler extends BreadthCrawler{
 				crawler.start(2);
 				File file = new File("crawl");
 				CommonUtil.deleteFile(file);
+				bf.saveBloomFilter();
+				logger.info("*************NewsCrawler finish*********************");
+				logger.info("*************start sleep*********************");
+				Thread.sleep(3*60*60*1000);
 			} catch (Exception e) {
 				logger.info("NewsCrawler run() error", e);
 			}
-			crawler.bf.saveBloomFilter();
-			logger.info("*************NewsCrawler finish*********************");
 		}
 
 	}
