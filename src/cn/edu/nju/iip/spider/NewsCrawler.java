@@ -68,7 +68,7 @@ public class NewsCrawler extends BreadthCrawler{
 			try {
 				News news = ContentExtractor.getNewsByHtml(page.getHtml());
 				JWNews jwnews = new JWNews();
-				jwnews.setContent(news.getContent());
+				jwnews.setContent(news.getContent().trim());
 				jwnews.setSentiment(0);
 				jwnews.setSource(page.getMetaData("source"));
 				jwnews.setUrl(url);
