@@ -1,7 +1,9 @@
 package cn.edu.nju.iip.spider;
 
 import java.io.File;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -27,7 +29,7 @@ import cn.edu.nju.iip.util.CommonUtil;
  * 
  * @author hu
  */
-public class NewsCrawler extends BreadthCrawler{
+public class NewsCrawler extends BreadthCrawler {
 
 	private static final Logger logger = LoggerFactory
 			.getLogger(NewsCrawler.class);
@@ -35,6 +37,8 @@ public class NewsCrawler extends BreadthCrawler{
 	private BlockingQueue<JWNews> NewsQueue;
 
 	private static BloomFactory bf = BloomFactory.getInstance();
+
+	private static Set<String> seed_set = new HashSet<String>();
 
 	/**
 	 * @param crawlPath
@@ -50,6 +54,7 @@ public class NewsCrawler extends BreadthCrawler{
 		for (Url url : list) {
 			this.addSeed(new CrawlDatum(url.getLink()).putMetaData("source",
 					url.getWebname()));
+			seed_set.add(url.getLink());
 		}
 		this.addRegex(".*");
 		this.addRegex("-.*\\.(jpg|png|gif).*");
@@ -64,19 +69,21 @@ public class NewsCrawler extends BreadthCrawler{
 		if (bf.contains(url)) {
 			return;
 		} else {
-			bf.add(url);
-			try {
-				News news = ContentExtractor.getNewsByHtml(page.getHtml());
-				JWNews jwnews = new JWNews();
-				jwnews.setContent(news.getContent().trim());
-				jwnews.setSentiment(0);
-				jwnews.setSource(page.getMetaData("source"));
-				jwnews.setUrl(url);
-				jwnews.setTitle(news.getTitle());
-				jwnews.setCrawltime(CommonUtil.getTime());
-				NewsQueue.put(jwnews);
-			} catch (Exception e) {
-				logger.info("visit failed", e);
+			if (!seed_set.contains(url)) {
+				bf.add(url);
+				try {
+					News news = ContentExtractor.getNewsByHtml(page.getHtml());
+					JWNews jwnews = new JWNews();
+					jwnews.setContent(news.getContent().trim());
+					jwnews.setSentiment(0);
+					jwnews.setSource(page.getMetaData("source"));
+					jwnews.setUrl(url);
+					jwnews.setTitle(news.getTitle());
+					jwnews.setCrawltime(CommonUtil.getTime());
+					NewsQueue.put(jwnews);
+				} catch (Exception e) {
+					logger.info("visit failed", e);
+				}
 			}
 		}
 
@@ -113,7 +120,7 @@ public class NewsCrawler extends BreadthCrawler{
 				bf.saveBloomFilter();
 				logger.info("*************NewsCrawler finish*********************");
 				logger.info("*************start sleep*********************");
-				Thread.sleep(3*60*60*1000);
+				Thread.sleep(3 * 60 * 60 * 1000);
 			} catch (Exception e) {
 				logger.info("NewsCrawler run() error", e);
 			}
