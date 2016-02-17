@@ -39,6 +39,8 @@ public class NewsCrawler extends BreadthCrawler {
 	private static BloomFactory bf = BloomFactory.getInstance();
 
 	private static Set<String> seed_set = new HashSet<String>();
+	
+	private static int count;
 
 	/**
 	 * @param crawlPath
@@ -50,6 +52,7 @@ public class NewsCrawler extends BreadthCrawler {
 	 */
 	public NewsCrawler(String crawlPath, boolean autoParse) {
 		super(crawlPath, autoParse);
+		count = 0;
 		List<Url> list = CommonUtil.importFromXls();
 		for (Url url : list) {
 			this.addSeed(new CrawlDatum(url.getLink()).putMetaData("source",
@@ -71,6 +74,7 @@ public class NewsCrawler extends BreadthCrawler {
 		} else {
 			if (!seed_set.contains(url)) {
 				bf.add(url);
+				count++;
 				try {
 					News news = ContentExtractor.getNewsByHtml(page.getHtml());
 					JWNews jwnews = new JWNews();
@@ -118,6 +122,7 @@ public class NewsCrawler extends BreadthCrawler {
 				File file = new File("crawl");
 				CommonUtil.deleteFile(file);
 				bf.saveBloomFilter();
+				logger.info("新增新闻:"+count);
 				logger.info("*************NewsCrawler finish*********************");
 				logger.info("*************start sleep*********************");
 				Thread.sleep(3 * 60 * 60 * 1000);
