@@ -17,5 +17,6 @@
 		<property name="source" column="source" type="string" />
 		<property name="sentiment" column="sentiment" type="int" />
 		<property name="crawltime" column="crawltime" type="string" />
+		<property name="tag" column="tag" type="string" />
 	</class>
 </hibernate-mapping>

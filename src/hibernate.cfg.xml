@@ -13,13 +13,13 @@
 
 		<!-- Assume test is the database name -->
 		<property name="hibernate.connection.url">
-			jdbc:mysql://localhost/xianteng
+			jdbc:mysql://114.212.82.189/xianteng
 		</property>
 		<property name="hibernate.connection.username">
 			root
 		</property>
 		<property name="hibernate.connection.password">
-			iipconfig
+			root
 		</property>
 
 		<property name="c3p0.min_size">2</property> <!--在连接池中可用数据库连接的最小数目 -->

@@ -12,7 +12,19 @@ public class JWNews {
 	private int sentiment;
 	// 抓取时间
 	private String crawltime;
+	//标签
+	private String tag;
 	
+	
+	
+	public String getTag() {
+		return tag;
+	}
+
+	public void setTag(String tag) {
+		this.tag = tag;
+	}
+
 	public String getUrl() {
 		return url;
 	}

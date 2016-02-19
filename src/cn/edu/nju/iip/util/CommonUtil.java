@@ -44,6 +44,26 @@ public class CommonUtil {
 		workbook.close();
 		return url_list;
 	}
+	
+	public static List<String> importUnitName() {
+		Workbook workbook = null;
+		List<String> list = new ArrayList<String>();
+		try {
+			workbook = Workbook.getWorkbook(new File(System
+					.getProperty("user.dir") + "/resources/公路企业基本信息.xls"));
+		} catch (Exception e) {
+			logger.error("importFromXls error!", e);
+		}
+		Sheet sheet = workbook.getSheet(0);
+		int rowCount = sheet.getRows();
+		for (int i = 1; i < rowCount; i++) {
+			String UnitName = sheet.getCell(2, i).getContents().trim();
+			if(UnitName.contains("公司")) {
+				list.add(UnitName);
+			}
+		}
+		return list;
+	}
 
 	/**
 	 * 获取当前时间
@@ -75,9 +95,11 @@ public class CommonUtil {
 	}
 
 	public static void main(String[] args) {
-		// importFromXls();
-		File file = new File("crawl");
-		deleteFile(file);
+		List<String> list = importUnitName();
+		for(String name:list) {
+			logger.info(name);
+		}
+		
 	}
 
 }

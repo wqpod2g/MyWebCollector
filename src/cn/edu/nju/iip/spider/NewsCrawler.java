@@ -31,8 +31,7 @@ import cn.edu.nju.iip.util.CommonUtil;
  */
 public class NewsCrawler extends BreadthCrawler {
 
-	private static final Logger logger = LoggerFactory
-			.getLogger(NewsCrawler.class);
+	private static final Logger logger = LoggerFactory.getLogger(NewsCrawler.class);
 
 	private BlockingQueue<JWNews> NewsQueue;
 
@@ -90,7 +89,6 @@ public class NewsCrawler extends BreadthCrawler {
 				}
 			}
 		}
-
 	}
 
 	public void afterVisit(Page page, CrawlDatums next) {

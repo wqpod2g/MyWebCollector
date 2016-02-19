@@ -17,6 +17,10 @@ public class NewsDAO extends DAO implements Runnable{
 		this.NewsQueue = NewsQueue;
 	}
 	
+	public NewsDAO() {
+		
+	}
+	
 	public void saveNews(JWNews news) {
 		try{
 			begin();
